@@ -95,3 +95,47 @@ class Walker {
 Antes de ejecutarlo: Creo que lo que va a pasar es que el cuadrado solo va a ir para los lados y abajo, no hacia arriba ya que no puede restarle a y.
 
 Despues de ejecutarlo: Sucedio lo que esperaba creo que por la misma razon que dije antes, ya que no se le puede restar a y entonces solo puede ir hacia abajo o a los lados.
+
+### Actividad 4
+
+Una distribucion uniforme es cuando todas las opciones tienen la misma posibilidad de salir y una no uniforme es cuando hay opciones mas favorecidas y unas menos favorecidas a salir.
+
+``` .js
+let walker;
+
+function setup() {
+  createCanvas(640, 240);
+  walker = new Walker();
+  background(255);
+}
+
+function draw() {
+  walker.step();
+  walker.show();
+}
+
+class Walker {
+  constructor() {
+    this.x = width / 2;
+    this.y = height / 2;
+  }
+
+  show() {
+    stroke(0);
+    point(this.x, this.y);
+  }
+
+  step() {
+    const choice = floor(max(0, randomGaussian(0, 3)));
+    if (choice == 0) {
+      this.x++;
+    } else if (choice == 1) {
+      this.x--;
+    } else if (choice == 2) {
+      this.y++;
+    } else {
+      this.y--;
+    }
+  }
+}
+```
