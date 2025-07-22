@@ -139,3 +139,102 @@ class Walker {
   }
 }
 ```
+
+### Actividad 5
+
+``` .js
+function setup() {
+  createCanvas(640, 240);
+  background(255);
+  noStroke();
+}
+
+function draw() {
+  let x = random(width);
+  let y = random(height);
+
+  let mean = 24;
+  let sd = 8; // desviación estándar
+  let r = abs(randomGaussian(mean, sd)); 
+
+  fill(100, 100, 255, 50);
+  ellipse(x, y, r, r);
+}
+
+```
+
+Enlace al sketch de p5.js: https://editor.p5js.org/Zeuzd/sketches/8zO4S_gh_
+
+<img width="803" height="300" alt="image" src="https://github.com/user-attachments/assets/cd560e05-48d8-44f9-b896-2e2298ec3e0b" />
+
+### Actividad 6
+
+``` .js
+function setup() {
+  createCanvas(640, 240);
+  background(255);
+  noStroke();
+}
+
+function draw() {
+  let x = random(width);
+  let y = random(height);
+
+  
+  let r;
+  let chance = random(1);
+  if (chance < 0.01) {
+    r = random(50, 120);
+  } else {
+    r = random(2, 20);   
+  }
+
+  fill(100, 100, 255, 50);
+  ellipse(x, y, r, r);
+}
+
+```
+
+Modifique el codigo del punto anterior para que cada vez que se genera un circulo, tenga un 1% de probabilidad de que sea mucho mas grande de lo normal.
+
+Enlace a codigo en p5.js: https://editor.p5js.org/Zeuzd/sketches/zN-lXYFww
+
+<img width="803" height="297" alt="image" src="https://github.com/user-attachments/assets/52d2837f-db71-4aab-bced-aef3174f70d0" />
+
+### Actividad 7
+
+``` .js
+let yoff = 0;
+
+function setup() {
+  createCanvas(640, 240);
+  noFill();
+}
+
+function draw() {
+  background(255);
+  stroke(0);
+
+  beginShape();
+
+  let xoff = 0;
+  for (let x = 0; x <= width; x += 5) {
+    let y = noise(xoff, yoff) * height;
+    vertex(x, y);
+    xoff += 0.02; // control del detalle horizontal
+  }
+
+  endShape();
+
+  yoff += 0.01; // esto hace que la onda se "desplace" con el tiempo
+}
+
+```
+
+Este es un codigo el cual hace un efecto de "ola en movimiento" con el ruido perlin utilizando el noise() en un vector.
+
+Enlace al codigo en p5.js: https://editor.p5js.org/Zeuzd/sketches/LtzLLoy6r
+
+<img width="803" height="307" alt="image" src="https://github.com/user-attachments/assets/e8a6af0e-8a0c-47ef-97bb-cba1b071a38a" />
+
+
