@@ -163,7 +163,7 @@ function draw() {
 
 ```
 
-Enlace al sketch de p5.js: https://editor.p5js.org/Zeuzd/sketches/8zO4S_gh_
+Enlace al sketch de p5.js: https://editor.p5js.org/Zeuzd/sketches/sQ_TkyJTs
 
 <img width="803" height="300" alt="image" src="https://github.com/user-attachments/assets/cd560e05-48d8-44f9-b896-2e2298ec3e0b" />
 
