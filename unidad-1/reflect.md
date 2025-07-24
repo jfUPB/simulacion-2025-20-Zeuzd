@@ -26,3 +26,19 @@ Parte 2: reflexión sobre tu proceso
 3. El mayor desafio fue la interaccion entre las tecnicas, por ejemplo si queria pasar de utilizar el Ruido perlin a el levy flight, como pasar toda esa informacion de los pixeles a la nueva tecnica y que no se note en pantalla de que se cambio.
 
 4. Siento que lo haria todo de la misma manera, ya que la implementacion del codigo despues del diseño fue facil, lo que mas me costo hacer fue la idea de que hacer, no el como.
+
+### Actividad 10
+
+En esta actividad me hice con luciana la cual me dio su bitacora, 5/5, en su codigo de la actividad 8 vea que todo esta muy completo y bien implementado, tanto las 3 partes de random, randomgaussian y el ruido perlin, asi como la interactividad, me gusto mucho como funciona la visualizacion de las flores y el efecto que genera, No tengo nada mas que agregar.
+
+### Actividad 11
+
+1. Siento que las 3 actividades que explican el Gaussian, el Levy flight y el Ruido perlin son nesecarias si o si y se deberian mantener
+
+2. Yo no eliminaria nada en lo personalm siento que cada punto de la unidad es nesecario para entender a profundidad el siguiente.
+
+3. A mi me gustaria un poco mas ejemplos visuales para poder entender los conceptos y no tanto links a paginas externas de textos innesecarios.
+
+4. Bien, me ayudo mucho los ejemplos de codigo para hacer los mios propios a la hora de realizar las actividades y complementar la teoria.
+
+5. Creo que es una unidad muy completa tanto en teoria como en practica, siento que alcanze a profundizar todos los conceptos y aprendi mucho.
