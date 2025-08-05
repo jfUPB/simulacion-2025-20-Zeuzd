@@ -163,3 +163,19 @@ El lerp() funciona dandole dos vectores, un inicio un final de distancia y cuant
 El drawArrow() dibuja una flecha desde un punto base en la dirección de un vector.
 Usa `translate()` para mover el origen y `rotate()` para orientar la punta de la flecha.
 Dibuja una línea con `line()` y una punta triangular con `triangle()`.
+
+### Actividad 6
+
+El marco Motion 101 es un modelo simple de movimiento que combina posición, velocidad, aceleración.
+En conjunto, los tres vectores forman una cadena dinámica: la aceleración cambia la velocidad, y la velocidad cambia la posición, generando trayectorias que pueden ser rectas, curvas o caóticas, según cómo cambie la aceleración.
+
+Enel codigo del ejemplo se aplica Motion 101 al actualizar la posición sumando la velocidad posición += velocidad.
+Esto hace que el objeto se mueva en línea recta y a velocidad constante.
+Geométricamente, la velocidad es un vector que desplaza la posición en cada frame.
+
+
+### Actividad 7
+
+1. Aceleración constante genera un movimiento recto y cada vez más rápido.
+2. Aceleración aleatoria provoca un movimiento errático y cambiante, como un zigzag.
+3. Aceleración hacia el mouse hace que el objeto persiga el cursor con trayectorias curvas.
