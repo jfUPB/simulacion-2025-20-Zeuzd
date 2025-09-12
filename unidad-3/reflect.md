@@ -27,3 +27,26 @@
 
 
 ### Actividad 12
+
+Para esta actividad revise el codigo de David Vanegas.
+
+Claridad del Concepto: Si, la obra es clara en su inspiracion y en el concepto del problema de los n-cuerpos
+
+Implementación de Fuerzas: Si, la ley de newtown se aplica correctamente y las fuerzas tambien.
+
+Creatividad en el Modelado: En mi pareces no es algo nuevo ya que mi codigo tambien es muy parecido, en parte porque es el mismo problema en el que estamos trabajando, pero me gusta mucho.
+
+Calidad de la Interactividad: Me gusta la interactividad, ya que es variada y juega con las fuerzas.
+
+
+¿Qué fue lo que más te llamó la atención del trabajo de tu compañero?
+
+RT// Lo que mas me llamo la atencion del trabajo es la interactividad tan variada.
+
+¿Qué aprendiste de su enfoque para modelar fuerzas?
+
+RT// Que con la propia interactividad puedes afectar las fuerzas.
+
+¿Qué técnica o idea de su implementación te gustaría aplicar en tus futuros proyectos?
+
+RT// En un proyecto futuro me gustaria hacer la parte de que al presionar cierta tecla cambia todo de color o incluso hace un arcoiris.
