@@ -50,3 +50,15 @@ RT// Que con la propia interactividad puedes afectar las fuerzas.
 ¿Qué técnica o idea de su implementación te gustaría aplicar en tus futuros proyectos?
 
 RT// En un proyecto futuro me gustaria hacer la parte de que al presionar cierta tecla cambia todo de color o incluso hace un arcoiris.
+
+### Actividad 13
+
+Continuar: El concepto que mas me llamo la atencion fue el problema de los n-cuerpos.
+
+Dejar de hacer: No, todas me parecieron nesecarias para entender el modelado de fuerzas.
+
+Progresión conceptual: Si, ya que son cosas que vemos en nuestro dia a dia.
+
+Conexión arte-física: Esta unidad me abrio mucho los ojos ya que me mostro cuan importante son las fisicas para crear arte generativo que se sienta real.
+
+Comentario adicional: Me gusto toda la unidad y como ya dije anteriormente, me mostro lo importantisimo que es implementar bien las fisicas para que las obras se sientan vivas y sean mas inmersivas.
