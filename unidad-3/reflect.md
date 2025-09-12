@@ -7,7 +7,7 @@
 
 #### Parte 1
 
-1.No me acuerdo
+1. No me acuerdo
 
 2. Porque si no se multiplicara por 0 las fuerzas se las fuerzas se aplicarían infinitamente, como si el empuje nunca se detuviera.
    
@@ -62,3 +62,4 @@ Progresión conceptual: Si, ya que son cosas que vemos en nuestro dia a dia.
 Conexión arte-física: Esta unidad me abrio mucho los ojos ya que me mostro cuan importante son las fisicas para crear arte generativo que se sienta real.
 
 Comentario adicional: Me gusto toda la unidad y como ya dije anteriormente, me mostro lo importantisimo que es implementar bien las fisicas para que las obras se sientan vivas y sean mas inmersivas.
+
