@@ -435,7 +435,7 @@ Memoria: al ir borrando cada partícula muerta del array, el sistema mantiene es
 ## Apply
 
 ### Concepto 
-Quiero hacer un sistema como el "ciclo de la vida" como nace-vive-se reproduce-muere con el sistema de particulas en el cual las particulas puedan ser hombre o mujer simulando a una persona y si estos se chocan puede nacer una nueva particula.
+Quiero hacer un sistema como el "ciclo de la vida" como nace-vive-se reproduce-muere con el sistema de particulas en el cual las particulas puedan ser hombre o mujer simulando a una persona y si estos se chocan puede nacer una nueva particula, como al dejar caer la semilla de la vida se puede seguir creciendo indefinidamente pero para que mi programa no explote hare algo para limitar el numero de particulas posibles.
 
 Para crear esto voy a utilizar los conceptos de interactividad, polimorfismo, herencia, ruido perlin, friccion, distribucion normal, motion 101, gestion del tiempo de vida de las partículas y la memoria.
 
@@ -714,3 +714,4 @@ if (p.isDead()) {
 ```
 
 Si la partícula muere, se elimina del array particles.
+
