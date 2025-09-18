@@ -431,3 +431,286 @@ Desaparición: todas siguen usando la lógica de lifespan y se eliminan al llega
 Memoria: al ir borrando cada partícula muerta del array, el sistema mantiene estable el uso de memoria, aunque las trayectorias sean más complejas (con ruido Perlin).
 
 <img width="490" height="230" alt="image" src="https://github.com/user-attachments/assets/88defbd8-c0b6-47d5-b8eb-3f5e9de39c96" />
+
+## Apply
+
+### Concepto 
+Quiero hacer un sistema como el "ciclo de la vida" como nace-vive-se reproduce-muere con el sistema de particulas en el cual las particulas puedan ser hombre o mujer simulando a una persona y si estos se chocan puede nacer una nueva particula.
+
+Para crear esto voy a utilizar los conceptos de interactividad, polimorfismo, herencia, ruido perlin, friccion, distribucion normal, motion 101, gestion del tiempo de vida de las partículas y la memoria.
+
+### Codigo
+
+Enlace a p5.js: https://editor.p5js.org/Zeuzd/sketches/wt_IWVwKl
+
+```js
+let particles = [];
+const MAX_PARTICLES = 200;
+
+function setup() {
+  createCanvas(600, 400);
+}
+
+function draw() {
+  background(20, 40, 60, 40);
+
+  // Crear nuevas partículas con el mouse
+  if (mouseIsPressed && particles.length < MAX_PARTICLES) {
+    if (random() < 0.5) {
+      particles.push(new BlueCloud(mouseX, mouseY)); // azul (hombre)
+    } else {
+      particles.push(new PinkCloud(mouseX, mouseY)); // rosada (mujer)
+    }
+  }
+
+  // Actualizar y mostrar partículas
+  for (let i = particles.length - 1; i >= 0; i--) {
+    let p = particles[i];
+    p.applyPerlinForce();
+    p.update();
+    p.display(); // polimorfismo: depende del tipo de partícula
+
+    // Reproducción solo entre azul y rosada
+    for (let j = i - 1; j >= 0; j--) {
+      let other = particles[j];
+
+      if (
+        particles.length < MAX_PARTICLES &&
+        p.collides(other) &&
+        p.canReproduce() &&
+        other.canReproduce()
+      ) {
+        // Verificar que sean de distinto tipo (Blue + Pink)
+        if (
+          (p instanceof BlueCloud && other instanceof PinkCloud) ||
+          (p instanceof PinkCloud && other instanceof BlueCloud)
+        ) {
+          // Hijo: azul o rosado al azar
+          if (random() < 0.5) {
+            particles.push(
+              new BlueCloud((p.pos.x + other.pos.x) / 2, (p.pos.y + other.pos.y) / 2)
+            );
+          } else {
+            particles.push(
+              new PinkCloud((p.pos.x + other.pos.x) / 2, (p.pos.y + other.pos.y) / 2)
+            );
+          }
+
+          p.resetCooldown();
+          other.resetCooldown();
+          p.children++;
+          other.children++;
+        }
+      }
+    }
+
+    // Eliminar partículas muertas
+    if (p.isDead()) {
+      particles.splice(i, 1);
+    }
+  }
+}
+
+// ---------------------
+// Clase base Particle
+// ---------------------
+class Particle {
+  constructor(x, y) {
+    this.pos = createVector(x, y);
+    this.vel = createVector(0, 0);
+    this.acc = createVector(0, 0);
+
+    this.lifespan = 180;
+
+    // Distribución normal para el tamaño inicial
+    this.size = abs(randomGaussian(10, 3));
+    this.growthRate = 0.05;
+    this.noiseOffset = random(1000);
+
+    this.cooldown = 0;
+    this.children = 0;
+    this.maxChildren = 3;
+  }
+
+  applyForce(f) {
+    this.acc.add(f);
+  }
+
+  applyPerlinForce() {
+    let angle = noise(this.noiseOffset, frameCount * 0.01) * TWO_PI;
+    let force = p5.Vector.fromAngle(angle).mult(0.05);
+    this.applyForce(force);
+  }
+
+  update() {
+    // Motion 101 + fricción
+    this.vel.add(this.acc);
+    this.vel.mult(0.9);
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+
+    // Crecimiento limitado
+    if (this.size < 30) {
+      this.size += this.growthRate;
+    }
+
+    // Envejecimiento
+    this.lifespan -= 0.5;
+
+    // Reducir cooldown
+    if (this.cooldown > 0) this.cooldown--;
+  }
+
+  display() {
+    // Polimorfismo: sobreescrito en subclases
+    noStroke();
+    fill(255, this.lifespan);
+    ellipse(this.pos.x, this.pos.y, this.size);
+  }
+
+  isDead() {
+    return this.lifespan <= 0;
+  }
+
+  collides(other) {
+    let d = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
+    return d < (this.size + other.size) / 2;
+  }
+
+  canReproduce() {
+    return this.cooldown === 0 && this.children < this.maxChildren;
+  }
+
+  resetCooldown() {
+    this.cooldown = 60;
+  }
+}
+
+// ---------------------
+// Subclase BlueCloud (hombre)
+// ---------------------
+class BlueCloud extends Particle {
+  display() {
+    noStroke();
+    fill(100, 150, 255, this.lifespan); // azul
+    ellipse(this.pos.x, this.pos.y, this.size);
+  }
+}
+
+// ---------------------
+// Subclase PinkCloud (mujer)
+// ---------------------
+class PinkCloud extends Particle {
+  display() {
+    noStroke();
+    fill(255, 150, 200, this.lifespan); // rosado
+    ellipse(this.pos.x, this.pos.y, this.size);
+  }
+}
+```
+<img width="725" height="487" alt="image" src="https://github.com/user-attachments/assets/cff3c2cb-c12f-45c3-ae92-2d6cc68eb337" />
+
+### Conceptos utilizados 
+
+#### Distribucion normal
+
+En el constructor de la clase base Particle:
+```js
+this.size = abs(randomGaussian(10, 3));
+```
+Usé randomGaussian() para que el tamaño inicial no sea fijo, sino que siga una distribución normal con media 10 y desviación estándar 3.
+
+#### Motion 101
+
+En el método update() de Particle:
+```js
+this.vel.add(this.acc);
+this.vel.mult(0.9);  // ← aquí entra la fricción
+this.pos.add(this.vel);
+this.acc.mult(0);
+```
+La partícula aplica aceleración - velocidad - posición.
+
+#### Friccion
+
+En update():
+```js
+this.vel.mult(0.9);
+```
+En cada frame la velocidad se reduce un poco simulando la resistencia del fondo para que no se muevan indefinidamente.
+
+#### Ruido perlin
+
+En el método applyPerlinForce() de Particle.
+
+```js
+let angle = noise(this.noiseOffset, frameCount * 0.01) * TWO_PI;
+let force = p5.Vector.fromAngle(angle).mult(0.05);
+this.applyForce(force);
+
+```
+Se usa noise() para calcular un ángulo suave y continuo y despues se aplica a la fuerza para crear un movimiento natural y fluido.
+
+#### Polimorfismo
+
+En los métodos display() de BlueCloud y PinkCloud:
+
+```js
+class BlueCloud extends Particle {
+  display() {
+    fill(100, 150, 255, this.lifespan); // azul
+    ellipse(this.pos.x, this.pos.y, this.size);
+  }
+}
+
+class PinkCloud extends Particle {
+  display() {
+    fill(255, 150, 200, this.lifespan); // rosado
+    ellipse(this.pos.x, this.pos.y, this.size);
+  }
+}
+
+```
+
+Cada subclase redefine display() y cuando el programa llama a p.display(), se ejecuta la versión correcta según el tipo real de partícula.
+
+#### Herencia
+
+En la declaración de subclases:
+
+```js
+class BlueCloud extends Particle { ... }
+class PinkCloud extends Particle { ... }
+
+```
+
+Ambas heredan de Particle, comparten toda la lógica común y solo cambian lo que necesitan (el color en display()).
+
+#### Tiempo de vida
+
+En update() de Particle:
+
+```js
+this.lifespan -= 0.5;
+```
+
+Y en isDead():
+
+```js
+return this.lifespan <= 0;
+```
+
+Cada frame se reduce la vida de la partícula y cuando llega a 0, isDead() devuelve true.
+
+#### Gestión de la memoria
+
+En el draw():
+
+```js
+if (p.isDead()) {
+  particles.splice(i, 1);
+}
+
+```
+
+Si la partícula muere, se elimina del array particles.
