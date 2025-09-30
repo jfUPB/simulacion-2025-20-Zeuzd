@@ -24,3 +24,10 @@ Se calcula como la diferencia entre la velocidad deseada y la velocidad actual, 
 La diferencia es que las fuerzas fisicas provienen de la simulación de la naturaleza. Están definidas por leyes físicas, actúan de manera pasiva sobre el agente y no tienen “intención”. En cambio las steering forces son fuerzas artificiales de comportamiento. No vienen de la física, sino que se calculan para que un agente “decida” hacia dónde moverse (buscar, huir, alinearse). Representan intenciones, no leyes naturales.
 
 La relacion es directa ya que el propuso la idea de que cuando se simularan bandadas de animales en lugar de usar solo fuerzas físicas clásicas, propuso que cada agente tuviera “reglas locales” (separación, alineación, cohesión), implementadas como steering forces que guían su velocidad.
+
+### Actividad 3
+
+2. Se utiliza un array 2D, Cada elemento es un p5.Vector que indica la dirección del flujo en esa celda del espacio, mediante Perlin Noise se calcula el angulo. Para cada celda (i, j) se calcula un ángulo theta = noise(xoff, yoff) * TWO_PI * 2.
+Ese ángulo se convierte en un vector unitario con p5.Vector.fromAngle(theta).
+
+3. El vehículo toma su posición actual y convierte esas coordenadas continuas en índices de celda de la cuadrícula del flow field. Primero escala ese vector deseado a la velocidad máxima y despues resta la velocidad actual del vehículo, esto produce un vector que apunta en la dirección en que debe corregir su movimiento.
