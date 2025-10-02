@@ -31,7 +31,34 @@ La relacion es directa ya que el propuso la idea de que cuando se simularan band
 Ese ángulo se convierte en un vector unitario con p5.Vector.fromAngle(theta).
 
 3. El vehículo toma su posición actual y convierte esas coordenadas continuas en índices de celda de la cuadrícula del flow field. Primero escala ese vector deseado a la velocidad máxima y despues resta la velocidad actual del vehículo, esto produce un vector que apunta en la dirección en que debe corregir su movimiento.
+   
+4. Resolución del campo de flujo
+   
+   Se refiere al tamaño de las celdas de la cuadrícula, que determina cuán “fino” es el campo de vectores.
+   ```js
+   let cols, rows;        // cantidad de columnas y filas
+    let resolution = 20;   // tamaño de cada celda (pixels)
+   ```
+   
+   Velocidad máxima y fuerza máxima de los agentes
 
+   En la clase del agente (Vehicle)
+   ```js
+   this.maxspeed = 4;   // velocidad máxima del agente
+    this.maxforce = 0.1; // fuerza máxima (steering force)
+   ```
+   
+5. En mi caso puse la resolucion mucho mas gruesa
+   
+   ```js
+   let resolution = 5;  // celdas pequeñas → campo muy detallado
+   cols = floor(width / resolution);
+   rows = floor(height / resolution);
+   ```
+   
+   Cuando la resolución es muy gruesa, veo que los agentes siguen trayectorias más suaves y coherentes, con menos curvas, se notan patrones globales 
+   claros pero pierden detalle en sus movimientos individuales.
+   
 ### Actividad 4
 
 2.
@@ -176,3 +203,239 @@ Ese ángulo se convierte en un vector unitario con p5.Vector.fromAngle(theta).
    Al correr el codigo se me muy interesante ya que al tener tantas particulas hacen efectos de que se agrupan y se desagrupan muchas veces ya que se intentan separan unas de otras pero en eso se encuentran y juntan con otras.
 
    <img width="765" height="292" alt="image" src="https://github.com/user-attachments/assets/82889057-138a-4901-948d-2405c9ea3b62" />
+
+### Actividad 5
+
+Empecé creando un sistema de partículas que reaccionaba al ritmo de la música, después hice que cambiaran de dirección cuando el ritmo variaba y añadí rastros que mostraban cómo el color de cada partícula iba cambiando. Luego conecté la velocidad de las partículas con el volumen de la canción para darles más energía, y al final convertí el mouse en un círculo de fuerza que interactúa y choca con las partículas.
+
+```js
+// === Variables globales ===
+let flock;
+let song, fft, amplitude;
+
+// === Precarga de la canción ===
+function preload() {
+  song = loadSound("assets/enemigos.mp3");
+}
+
+// === Setup ===
+function setup() {
+  createCanvas(800, 600);
+  song.loop();
+
+  fft = new p5.FFT();
+  amplitude = new p5.Amplitude();
+
+  flock = new Flock();
+  for (let i = 0; i < 250; i++) {
+    flock.addBoid(new Boid(random(width), random(height)));
+  }
+}
+
+// === Draw ===
+function draw() {
+  // Fondo con transparencia (rastro)
+  background(0, 20); 
+
+  let spectrum = fft.analyze();
+  let bass = fft.getEnergy("bass");
+  let treble = fft.getEnergy("treble");
+  let level = amplitude.getLevel();
+
+  // Dibujar el círculo de fuerza del mouse
+  noFill();
+  stroke(255, 100, 200, 200);
+  ellipse(mouseX, mouseY, 80, 80);
+
+  flock.run(bass, treble, level);
+}
+
+// === Flock ===
+class Flock {
+  constructor() {
+    this.boids = [];
+  }
+  run(bass, treble, level) {
+    for (let b of this.boids) {
+      b.run(this.boids, bass, treble, level);
+    }
+  }
+  addBoid(b) {
+    this.boids.push(b);
+  }
+}
+
+// === Boid ===
+class Boid {
+  constructor(x, y) {
+    this.pos = createVector(x, y);
+    this.vel = p5.Vector.random2D();
+    this.acc = createVector();
+    this.r = 3;
+    this.maxspeed = 3;
+    this.maxforce = 0.05;
+
+    this.lastBass = 0; // detectar cambios de ritmo
+  }
+
+  run(boids, bass, treble, level) {
+    // Velocidad depende del volumen
+    this.maxspeed = map(level, 0, 0.5, 2, 8);  
+    this.maxspeed = constrain(this.maxspeed, 2, 8);
+
+    this.flock(boids, bass, treble, level);
+    this.mouseRepel(); // nueva fuerza de repulsión con el mouse
+    this.update();
+    this.borders();
+    this.show(level);
+  }
+
+  applyForce(force) {
+    this.acc.add(force);
+  }
+
+  flock(boids, bass, treble, level) {
+    let sep = this.separate(boids);
+    let ali = this.align(boids);
+    let coh = this.cohesion(boids);
+
+    // separación ↔ agudos
+    let separationStrength = map(treble, 0, 255, 0.5, 3.5);
+    sep.mult(separationStrength);
+
+    // cohesión ↔ volumen
+    let cohesionStrength = map(level, 0, 0.5, 0.2, 3.0);
+    coh.mult(cohesionStrength);
+
+    // alineación neutra
+    ali.mult(1.0);
+
+    // si cambia el ritmo fuerte → invertir dirección
+    if (abs(bass - this.lastBass) > 80) {
+      this.vel.mult(-1);
+    }
+    this.lastBass = bass;
+
+    this.applyForce(sep);
+    this.applyForce(ali);
+    this.applyForce(coh);
+
+    // ruido extra
+    let randomForce = p5.Vector.random2D().mult(0.1);
+    this.applyForce(randomForce);
+  }
+
+  // === Repulsión con el mouse ===
+  mouseRepel() {
+    let mouse = createVector(mouseX, mouseY);
+    let d = p5.Vector.dist(this.pos, mouse);
+    let radius = 40; // radio de colisión (mitad del círculo dibujado)
+    if (d < radius + this.r) {
+      let repel = p5.Vector.sub(this.pos, mouse);
+      repel.normalize();
+      repel.mult(0.5); // fuerza de repulsión
+      this.applyForce(repel);
+    }
+  }
+
+  update() {
+    this.vel.add(this.acc);
+    this.vel.limit(this.maxspeed);
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+  }
+
+  borders() {
+    if (this.pos.x < -this.r) this.pos.x = width + this.r;
+    if (this.pos.y < -this.r) this.pos.y = height + this.r;
+    if (this.pos.x > width + this.r) this.pos.x = -this.r;
+    if (this.pos.y > height + this.r) this.pos.y = -this.r;
+  }
+
+  // === Dibujo con rastros progresivos ===
+  show(level) {
+    let col = level > 0.2 ? color(180, 0, 255) : color(0, 255, 100);
+    fill(col);
+    stroke(col);
+    ellipse(this.pos.x, this.pos.y, this.r * 3, this.r * 3);
+  }
+
+  // === Reglas ===
+  separate(boids) {
+    let desiredSeparation = 20;
+    let steer = createVector();
+    let count = 0;
+    for (let other of boids) {
+      let d = p5.Vector.dist(this.pos, other.pos);
+      if (d > 0 && d < desiredSeparation) {
+        let diff = p5.Vector.sub(this.pos, other.pos);
+        diff.normalize();
+        diff.div(d);
+        steer.add(diff);
+        count++;
+      }
+    }
+    if (count > 0) steer.div(count);
+    if (steer.mag() > 0) {
+      steer.setMag(this.maxspeed);
+      steer.sub(this.vel);
+      steer.limit(this.maxforce * 2);
+    }
+    return steer;
+  }
+
+  align(boids) {
+    let neighbordist = 50;
+    let sum = createVector();
+    let count = 0;
+    for (let other of boids) {
+      let d = p5.Vector.dist(this.pos, other.pos);
+      if (d > 0 && d < neighbordist) {
+        sum.add(other.vel);
+        count++;
+      }
+    }
+    if (count > 0) {
+      sum.div(count);
+      sum.setMag(this.maxspeed);
+      let steer = p5.Vector.sub(sum, this.vel);
+      steer.limit(this.maxforce);
+      return steer;
+    } else {
+      return createVector();
+    }
+  }
+
+  cohesion(boids) {
+    let neighbordist = 50;
+    let sum = createVector();
+    let count = 0;
+    for (let other of boids) {
+      let d = p5.Vector.dist(this.pos, other.pos);
+      if (d > 0 && d < neighbordist) {
+        sum.add(other.pos);
+        count++;
+      }
+    }
+    if (count > 0) {
+      sum.div(count);
+      return this.seek(sum);
+    } else {
+      return createVector();
+    }
+  }
+
+  seek(target) {
+    let desired = p5.Vector.sub(target, this.pos);
+    desired.setMag(this.maxspeed);
+    let steer = p5.Vector.sub(desired, this.vel);
+    steer.limit(this.maxforce);
+    return steer;
+  }
+}
+```
+
+Enlace a p5.js: https://editor.p5js.org/Zeuzd/sketches/bsflyOk2j
+
+<img width="997" height="682" alt="image" src="https://github.com/user-attachments/assets/9d37fc86-5426-4463-bd32-e823b7794d12" />
+
