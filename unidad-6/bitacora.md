@@ -31,3 +31,148 @@ La relacion es directa ya que el propuso la idea de que cuando se simularan band
 Ese ángulo se convierte en un vector unitario con p5.Vector.fromAngle(theta).
 
 3. El vehículo toma su posición actual y convierte esas coordenadas continuas en índices de celda de la cuadrícula del flow field. Primero escala ese vector deseado a la velocidad máxima y despues resta la velocidad actual del vehículo, esto produce un vector que apunta en la dirección en que debe corregir su movimiento.
+
+### Actividad 4
+
+2.
+  Separacion
+   ```js
+   separate(boids) {
+   let desiredSeparation = 25.0;
+   let steer = createVector(0, 0);
+   let count = 0;
+
+   for (let other of boids) {
+    let d = p5.Vector.dist(this.position, other.position);
+    if ((d > 0) && (d < desiredSeparation)) {
+      // Vector que apunta lejos del vecino
+      let diff = p5.Vector.sub(this.position, other.position);
+      diff.normalize();
+      diff.div(d); // Más fuerte cuanto más cerca
+      steer.add(diff);
+      count++;
+    }
+   }
+   if (count > 0) {
+    steer.div(count);
+   }
+
+   if (steer.mag() > 0) {
+    steer.setMag(this.maxspeed);
+    steer.sub(this.velocity);
+    steer.limit(this.maxforce);
+    }
+   return steer;
+   }
+
+   ```
+  Alineación
+
+  ```js
+  align(boids) {
+  let neighbordist = 50;
+  let sum = createVector(0, 0);
+  let count = 0;
+
+  for (let other of boids) {
+    let d = p5.Vector.dist(this.position, other.position);
+    if ((d > 0) && (d < neighbordist)) {
+      sum.add(other.velocity); // Acumula direcciones
+      count++;
+    }
+  }
+  if (count > 0) {
+    sum.div(count);
+    sum.setMag(this.maxspeed);
+    let steer = p5.Vector.sub(sum, this.velocity);
+    steer.limit(this.maxforce);
+    return steer;
+  } else {
+    return createVector(0, 0);
+  }
+  }
+
+  ```
+
+  Cohesion
+
+  ```js
+  cohesion(boids) {
+  let neighbordist = 50;
+  let sum = createVector(0, 0);
+  let count = 0;
+
+  for (let other of boids) {
+    let d = p5.Vector.dist(this.position, other.position);
+    if ((d > 0) && (d < neighbordist)) {
+      sum.add(other.position); // Acumula posiciones
+      count++;
+    }
+  }
+  if (count > 0) {
+    sum.div(count);
+    return this.seek(sum); // Fuerza hacia el centro de masa
+  } else {
+    return createVector(0, 0);
+  }
+  }
+  ```
+
+3. Separacion: El objetivo es que los agentes no choquen entre si o se amontonen y su logica es que cuando detecta a un vecino demasiado cerca crea un vector de fuerza pero en direccion contraria.
+
+   Alineacion: El objetivo es que cada boid ajuste su dirección y velocidad para coincidir con la de los demas boids para que se muevan como una manada,
+   y su logica es que promedia la direccion y velocidad de todos y se las da a cada uno como una nueva direccion y velocidad.
+
+   Cohesion: El objetivo es que todos permanezcan unidos y que si uno se queda atras se atrae al grupo, la logica es que mira a todos los demas boids vecinos y promedia sus posiciones y con esta genera una fuerza con direccion.
+
+4. Radio:
+   ```js
+   // En separate()
+    let desiredSeparation = 25.0; 
+
+    // En align() y cohesion()
+    let neighbordist = 50;
+
+   ```
+
+   Pesos o multiplicadores de las tres reglas:
+   ```js
+   flock(boids) {
+    let sep = this.separate(boids);   // Separación
+   let ali = this.align(boids);      // Alineación
+   let coh = this.cohesion(boids);   // Cohesión
+
+   // Ajustar pesos relativos
+   sep.mult(1.5);   // separación más fuerte
+   ali.mult(1.0);   // alineación normal
+   coh.mult(1.0);   // cohesión normal
+
+   // Aplicar fuerzas al boid
+   this.applyForce(sep);
+   this.applyForce(ali);
+   this.applyForce(coh);
+   }
+   ```
+
+   Velocidad máxima y fuerza máxima:
+   ```js
+   constructor(x, y) {
+    this.position = createVector(x, y);
+    this.velocity = p5.Vector.random2D();
+    this.velocity.setMag(random(2, 4));
+    this.acceleration = createVector(0, 0);
+
+    this.maxforce = 0.05;  // Fuerza máxima de dirección
+    this.maxspeed = 3;     // Velocidad máxima
+    }
+
+   ```
+
+5. Fragmento de codigo cambiado:
+   ```js
+   let desiredSeparation = 300;
+   ```
+
+   Al correr el codigo se me muy interesante ya que al tener tantas particulas hacen efectos de que se agrupan y se desagrupan muchas veces ya que se intentan separan unas de otras pero en eso se encuentran y juntan con otras.
+
+   <img width="765" height="292" alt="image" src="https://github.com/user-attachments/assets/82889057-138a-4901-948d-2405c9ea3b62" />
