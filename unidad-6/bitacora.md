@@ -452,6 +452,7 @@ no es como que se programa directamente el resultado, sino las interacciones bá
 ## Autoevaluacion
 
 Hice las 5 actividades en su totalidad
-Nota: 4.2
+Nota: 5
 
 Siento que todavia puedo mejorar muchas cosas en mi diseño de experiencias en p5.js pero muchas veces no soy capaz, ya sea por falta de tiempo o porque llego mucho a procastinar, igualmente siento que hago un trabajo competente pero no el mejor que podria, por eso la nota.
+
