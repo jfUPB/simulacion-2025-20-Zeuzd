@@ -439,3 +439,20 @@ Enlace a p5.js: https://editor.p5js.org/Zeuzd/sketches/bsflyOk2j
 
 <img width="997" height="682" alt="image" src="https://github.com/user-attachments/assets/9d37fc86-5426-4463-bd32-e823b7794d12" />
 
+## Reflect
+
+1. Un agente autonomo es un programa capaz de tomar decisiones por si mismo según las reglas que le doy, puede percibir su entorno, reaccionar y actuar sin que yo intervenga directamente.
+En el arte generativo, estos agentes hacen que las obras cobren vida y cambien constantemente para que cada ejecución puede ser distinta, impredecible y llena de movimiento.
+
+2. El comportamiento emergente es cuando surgen patrones complejos a partir de reglas simples,
+no es como que se programa directamente el resultado, sino las interacciones básicas entre los elementos.
+
+3. La verdad nisiquiera tengo instalado blender en mi computador pero me parece  muy interesante la idea de que tambien se pueda aplicar ahi.
+
+## Autoevaluacion
+
+Hice las 5 actividades en su totalidad
+Nota: 5
+
+Siento que todavia puedo mejorar muchas cosas en mi diseño de experiencias en p5.js pero muchas veces no soy capaz, ya sea por falta de tiempo o porque llego mucho a procastinar, igualmente siento que hago un trabajo competente pero no el mejor que podria, por eso la nota.
+
