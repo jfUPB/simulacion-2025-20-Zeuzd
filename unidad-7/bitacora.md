@@ -202,3 +202,89 @@ Creo que mi unica dificultad fue como acostrumbrarme a utilizar un monton de ele
 
 ## Actividad 3
 
+Voy  utilizar la palabra "rebotar", mi idea es que sea cada letra independiente rebotando contra el suelo y que poco a poco vayan dejando de hacerlo, no va a haber ninguna interaccion con el usuario.
+
+Las letras las cree usando rectangulos con un ciclo de for y luego a cada una le cambie el label por la letra como tal usando letra.char = palabra[i];, despues utilizando el draw utilize otro ciclo para que cada letra se muestrara en la posición de su cuerpo físico.
+Tambien al crear cada letra o cuerpo, lo colo mucha restitution para que rebote mas, poca friccion y muy poca masa, todo esto combinado hace que cada cuerpo rebote sin parar 
+Cree lo muros del recuadro y utilizado simplemente rectangulos como muros.
+
+```js
+const { Engine, World, Bodies, Body } = Matter;
+
+let engine, world;
+let letras = [];
+let piso, paredIzq, paredDer, techo;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+
+  engine = Engine.create();
+  world = engine.world;
+  engine.gravity.y = 1;
+
+  const grosor = 60;
+  piso = Bodies.rectangle(width / 2, height + grosor / 2, width, grosor, { isStatic: true });
+  techo = Bodies.rectangle(width / 2, -grosor / 2, width, grosor, { isStatic: true });
+  paredIzq = Bodies.rectangle(-grosor / 2, height / 2, grosor, height, { isStatic: true });
+  paredDer = Bodies.rectangle(width + grosor / 2, height / 2, grosor, height, { isStatic: true });
+  World.add(world, [piso, techo, paredIzq, paredDer]);
+
+  const palabra = "REBOTAR";
+  const espacio = 80;
+  const inicioX = width / 2 - (palabra.length * espacio) / 2;
+
+  for (let i = 0; i < palabra.length; i++) {
+    const x = inicioX + i * espacio;
+    const y = random(50, 150);
+
+    const letra = Bodies.rectangle(x, y, 60, 80, {
+      restitution: 1.15, 
+      friction: 0.02,
+      frictionAir: 0.001,
+      density: 0.0015,
+    });
+
+    letra.char = palabra[i];
+    World.add(world, letra);
+    letras.push(letra);
+
+    Body.applyForce(letra, letra.position, {
+      x: random(-0.01, 0.01),
+      y: random(-0.03, 0.03),
+    });
+  }
+}
+
+function draw() {
+  background(240, 250, 255);
+
+  Engine.update(engine);
+
+  for (let l of letras) {
+    push();
+    translate(l.position.x, l.position.y);
+    rotate(l.angle);
+    fill(20, 30, 80);
+    textAlign(CENTER, CENTER);
+    textSize(70);
+    textStyle(BOLD);
+    text(l.char, 0, 0);
+    pop();
+  }
+
+  noFill();
+  stroke(100, 150, 200);
+  strokeWeight(4);
+  rectMode(CORNER);
+  rect(0, 0, width, height);
+}
+```
+<img width="823" height="745" alt="image" src="https://github.com/user-attachments/assets/2953fa6f-cf62-4030-b72f-f67c0d923932" />
+
+![ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/cc557017-224b-404e-8c4a-6e380de95d7c)
+
+Autoevaluacion: 5.0
+
+Hice todas las actividades completamente.
+
+
