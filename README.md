@@ -107,5 +107,6 @@ El hecho de que todo sea en live siento que es algo muy nuevo y llamativo ya que
 Yo elegi esta cancion: 
 https://www.youtube.com/watch?v=JjPtDl6EJ3o&list=RDJjPtDl6EJ3o&start_radio=1
 
+Esta es una cancion de punk brasileño, entonces voy a manejar como el concepto de caos y sensaciones fuertes, por ejemplo yo siempre utilizo esta cancion cuando me quiero levantar el animo o cuando quiero motivacion en el gym, entonces voy a manejarme alrededor de ese concepto.
 
 
