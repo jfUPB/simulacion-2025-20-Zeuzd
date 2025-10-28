@@ -88,4 +88,24 @@ tu propio proceso investigativo.
 ✔ El profesor es un mediador: mi papel es diseñar contextos de aprendizaje ricos en significado, conectados con tus intereses y realidades.  
 ✔ Se favorecen metodologías activas.
 
+-------
+
+### Actividad 1
+
+Yo escogi los ejemplos 2 y 3 de Sonar+D y Le Parody.
+
+Vi que los visuales responden a la musica con algoritmos, por ejemplo con cada beat se muestra unas particulas, con los agudos se muestran unas lineas que se van moviendo conforme al ritmo de la musica, osea todo esta entrelazado ya que responde al ritmo, a la intensida y a las frecuencias.
+
+En los primeros minutos del ejemplo de Le Parody me llamo mucho la atencion las parte del medio ya que aparecen unas particulas que se van moviendo en las que creo que afectan la voz de la muchacha, el ritmo de la musica y la frecuencia, y todo esto acompañado de los puntos en los alrededores que van con el beat de la cancion. 
+
+Tambien en este mismo ejemplo se ve como el algoritmo va cambiando y no se queda en esa misma "fase" despues se libera y se desplaza por toda la pantalla las particulas que solo estaban en el centro, y pareciera que hay varias capas ya que aparecen como partes que afectan de una manera la imagen de abajo, es muy interesante, y claro, cada performance sera diferente aunque la musica fuera la misma, por eso se llama "arte generativo".
+
+El hecho de que todo sea en live siento que es algo muy nuevo y llamativo ya que agrega dificultad al artista para estar pendiente de tantas cosas y es una nueva forma de "ser unico" ya que cada persona haria las cosas de manera diferente, y todo esto conlleva una preparacion, no es solamente una musica de fondo, ya es jugar con tu propio algortimo en tiempo real frente a cientos o miles de personas.
+
+### Actividad 2
+
+Yo elegi esta cancion: 
+https://www.youtube.com/watch?v=JjPtDl6EJ3o&list=RDJjPtDl6EJ3o&start_radio=1
+
+
 
