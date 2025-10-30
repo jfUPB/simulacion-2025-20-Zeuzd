@@ -109,4 +109,12 @@ https://www.youtube.com/watch?v=JjPtDl6EJ3o&list=RDJjPtDl6EJ3o&start_radio=1
 
 Esta es una cancion de punk brasileño, entonces voy a manejar como el concepto de caos y sensaciones fuertes, por ejemplo yo siempre utilizo esta cancion cuando me quiero levantar el animo o cuando quiero motivacion en el gym, entonces voy a manejarme alrededor de ese concepto.
 
+Voy a utilizar flocking, friccion y motion 101 ya que siento que son las que mas facil pueden representar el caos si se saben utilizar de manera adecuada.
+
+Planeo tener un sistema de particulas y un fondo y todo se mueva con el ritmo de la canciony vaya cambiando de color y con las teclas pueda "jugar" con las particulas.
+
+### Actividad 3
+
+
+
 
